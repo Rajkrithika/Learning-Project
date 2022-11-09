@@ -96,6 +96,7 @@ input[type="radio"]{
 .wrapper .form-container{
   width: 100%;
   overflow: hidden;
+  max-width: 450px;
 }
 .form-container .form-inner{
   display: flex;
@@ -109,6 +110,11 @@ input[type="radio"]{
   height: 50px;
   width: 100%;
   margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.form-inner form .field{
+  margin-bottom: 45px;
 }
 .form-inner form .field input{
   height: 100%;
@@ -182,12 +188,6 @@ form .btn input[type="submit"]{
   cursor: pointer;
 }
 
-
-
-
-
-
-/*teacher*/ 
 
 
 
