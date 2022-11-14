@@ -1,7 +1,6 @@
 const mysql =  require("mysql");
 const dotenv = require("dotenv");
 
-let dbInstance = null;
 dotenv.config();
 
 const connection = mysql.createPool({
@@ -13,6 +12,14 @@ const connection = mysql.createPool({
     connectionLimit: process.env.CONNECTIONLIMIT
 });
 
+
+connection.query("SELECT * FROM HOMEWORK.REGISTERED_USERS", (error, data)=> {
+    if(error){
+        return error
+    } else {
+        console.log(data)
+    }
+});
   module.exports = {
     register : (data, callback) => {
         const REGISTER_QUERY = "INSERT INTO HOMEWORK.REGISTERED_USERS(FIRST_NAME, LAST_NAME, EMAIL_ID, PHONE_NUMBER," +
@@ -29,6 +36,7 @@ const connection = mysql.createPool({
     },
 
     login : (username, password, callback) => {
+        console.log("Calling DB")
         const LOGIN_QUERY = "SELECT * FROM HOMEWORK.REGISTERED_USERS WHERE EMAIL_ID = ? AND USER_PASSWORD = ?";
         connection.query(LOGIN_QUERY, [username, password], 
             (error, result, fields) => {
