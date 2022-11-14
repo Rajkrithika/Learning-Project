@@ -58,13 +58,13 @@ app.post("/api/login", function(request,response){
                     request.session.user = user;
                     request.session.save();
                     response.redirect(307, "/api/teacher");
-                } else if (user.LAST_NAME == 'Student'){
+                } else if (user.USER_TYPE == 'Student'){
                     console.log("Redirecting To Student Screen");
                     request.session.user = user;
                     request.session.save();
                     response.redirect(307, "/api/student");
                 } else {
-                    response.redirect("/api/unAuthorized");
+                    response.sendFile('403.html', {root: __dirname+'/views'});
                 }
             } else {
                 response.sendFile('403.html', {root: __dirname+'/views'});
@@ -133,7 +133,7 @@ app.post("/api/student", (request, response) => {
             }
         })
     } else  {
-        response.redirect("/api/forbidden");
+        response.sendFile('403.html', {root: __dirname+'/views'});
     }
 })
 
