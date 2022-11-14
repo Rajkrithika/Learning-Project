@@ -47,9 +47,12 @@ app.post("/api/login", function(request,response){
     console.log(username, password)
     login(username, password, (error, result) => {
         if (error) {
+            response.end();
+            console.log("failed To Return Data")
             return error;
         } else {
             var registeredUser = JSON.parse(JSON.stringify(result));
+            console.log(registeredUser)
             if(registeredUser.length == 1) {
                 const user = registeredUser[0];
 
