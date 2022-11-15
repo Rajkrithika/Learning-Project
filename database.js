@@ -1,5 +1,6 @@
 const mysql =  require("mysql");
 const dotenv = require("dotenv");
+const moment = require("moment");
 
 dotenv.config();
 
@@ -12,14 +13,6 @@ const connection = mysql.createPool({
     connectionLimit: process.env.CONNECTIONLIMIT
 });
 
-
-connection.query("SELECT * FROM HOMEWORK.REGISTERED_USERS", (error, data)=> {
-    if(error){
-        return error
-    } else {
-        console.log(data)
-    }
-});
   module.exports = {
     register : (data, callback) => {
         const REGISTER_QUERY = "INSERT INTO HOMEWORK.REGISTERED_USERS(FIRST_NAME, LAST_NAME, EMAIL_ID, PHONE_NUMBER," +
@@ -58,5 +51,20 @@ connection.query("SELECT * FROM HOMEWORK.REGISTERED_USERS", (error, data)=> {
                 callback(null, result)
             }
         });  
-    }
+    },
+    addClass : (data, user , callback)=>{
+        const ADDCLASS_QUERY= "INSERT INTO HOMEWORK.CLASS(TEACHER_EMAIL_ID, TEACHER_NAME, CLASS_NAME, CLASS_CODE, CREATE_TS)" +
+        "VALUES(?,?,?,?,?);";
+        const createTs = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        var teacherFullName = user.FIRST_NAME + user.LAST_NAME;
+        connection.query(ADDCLASS_QUERY, [user.EMAIL_ID, teacherFullName, data.body.className, data.body.classNumber, 
+            createTs],
+            (error, result, fields) => {
+                if (error) {
+                    callback(error);
+                }else {
+                    callback(null, result)
+                }
+    });
+  }
   };
