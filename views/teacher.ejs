@@ -176,23 +176,23 @@
               </div>
 
               <div id="addClass" class="displayOnClick">
-                <form>
+                <form id="addclass" action="/api/addclass" method="post">
                   <div class="form-group row row-space">
                     <label for="teacherName" class="col-sm-4 col-form-label">Teacher Name</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="teacherName" placeholder="Teacher Name">
+                      <input type="text" class="form-control" id="teacherName" name = "teacherName" placeholder="Teacher Name">
                     </div>
                   </div>
                   <div class="form-group row row-space">
-                    <label for="studentName" class="col-sm-4 col-form-label">Student Name</label>
+                    <label for="className" class="col-sm-4 col-form-label">Class Name</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="studentName" placeholder="Student Name">
+                      <input type="text" class="form-control" id="className" name = "className" placeholder="Class Name">
                     </div>
                   </div>
                   <div class="form-group row row-space">
-                    <label for="studentClass" class="col-sm-4 col-form-label">Student Class</label>
+                    <label for="classNumber" class="col-sm-4 col-form-label">Class Number</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="studentClass" placeholder="Student Class">
+                      <input type="text" class="form-control" id="classNumber" name = "classNumber" placeholder="Class Number">
                     </div>
                   </div>
                   <div class="form-group row row-space">
