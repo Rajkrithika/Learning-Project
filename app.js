@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { request, response } = require("express");
-const { register, login, findFullName } = require("./database")
+const { register, login, findFullName , addClass} = require("./database")
 const bodyParser = require("body-parser");
 const e = require("express");
 const session = require("express-session");
@@ -47,9 +47,12 @@ app.post("/api/login", function(request,response){
     console.log(username, password)
     login(username, password, (error, result) => {
         if (error) {
+            response.end();
+            console.log("failed To Return Data")
             return error;
         } else {
             var registeredUser = JSON.parse(JSON.stringify(result));
+            console.log(registeredUser)
             if(registeredUser.length == 1) {
                 const user = registeredUser[0];
 
@@ -91,6 +94,29 @@ app.post('/api/register', (request, response) => {
         console.log(result)
         return response.json({status:'ok'});
     });
+})
+app.post('/api/addclass', (request, response) => {
+    console.log('Processing Register Request...');
+    console.log(request.body);
+    if (request.session.user) {
+        addClass(request, request.session.user, (error, result) => {
+            if (error) {
+                console.log(error);
+                if (error.code == "ER_DUP_ENTRY" )
+                return response.json({
+                    status: 'error',
+                    error: 'Class Name, Already Exist'
+                });
+                throw error;
+            }
+    
+            console.log(result)
+            return response.json({status:'ok'});
+        });
+    } else {
+        response.sendFile('403.html', {root: __dirname+'/views'});
+    }
+
 })
 
 app.post("/api/teacher", (request, response) => {
