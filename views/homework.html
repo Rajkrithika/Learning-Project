@@ -92,14 +92,10 @@
             <nav class="sidebar card py-2 mb-4">
               <ul class="nav flex-column" id="nav_accordion">
                 <li class="nav-item">
-                  <a class="nav-link" href="#" onclick="loadContent('#schedule')"> Schedule </a>
+                  <a class="nav-link" href="#" onclick="loadContent('#createhomework')">Create Homework </a>
                 </li>
-                <li class="nav-item has-submenu">
-                  <a class="nav-link" href="#"> Classes <i class="bi small bi-caret-down-fill"></i> </a>
-                  <ul class="submenu collapse">
-                    <li><a class="nav-link" href="#" onclick="loadContent('#addClass')">Add Classes </a></li>
-                    <li><a class="nav-link" href="#" onclick="loadContent('#myClass')">My Classes </a></li>
-                  </ul>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="loadContent('#viewhomework')">View Homework </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#" onclick="loadContent('#profile')"> Profile </a>
@@ -117,80 +113,51 @@
 
               </div>
 
-              <div id="schedule" class="displayOnClick">
-                <h1>Schedule</h1>
-                <p>This is the Statement of purpose for employees</p>
-              </div>
+              
+                
 
-              <div id="myClass" class="displayOnClick">
-                <!-- Header -->
+              
+
+          
+
+                    
+              <div id="createhomework" class="displayOnClick">
                 <header id="header">
                   <nav>
                     <div class="container">
                       <div class="text-center">
-                        <a href="/" class="nav-brand text-dark">Class Management</a>
+                        <a href="/" class="nav-brand text-dark">Create Homework</a>
                       </div>
                     </div>
                   </nav>
                 </header>
-                <!-- /Header -->
-
-                <!-- Main Site -->
-                <main id="site-main">
-                  <div class="container">
-
-                    <!-- form handling -->
-                    <form action="/" method="POST">
-                      <table class="table">
-                        <thead class="thead-dark">
-                          <tr>
-                            <th>Serial No.</th>
-                            <th>Class Name</th>
-                            <th>Class Code</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>My First Class</td>
-                            <td>123456</td>
-                            <td>
-                              <a href="#" class="btn border-shadow update">
-                                <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
-                              </a>
-                              <a href="#" class="btn border-shadow delete">
-                                <span class="text-gradient"><i class="fas fa-times"></i></span>
-                              </a>
-                              <a href="/api/homework" class="btn border-shadow Homework">
-                                <span class="text-gradient"><i class="bi bi-plus-square-fill"></i></span>
-                              </a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </form>
-                  </div>
-                </main>
-                <!-- /Main Site -->
-              </div>
-
-              <div id="addClass" class="displayOnClick">
                 <form id="addclass" action="/api/addclass" method="post">
                   <div class="form-group row row-space">
-                    <label for="teacherName" class="col-sm-4 col-form-label">Teacher Name</label>
+                    <label for="teacherName" class="col-sm-4 col-form-label">Class Name</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="teacherName" name = "teacherName" placeholder="Teacher Name">
+                      <input type="text" class="form-control" id="classname" name = "Classname" placeholder="Class Name">
                     </div>
                   </div>
                   <div class="form-group row row-space">
-                    <label for="className" class="col-sm-4 col-form-label">Class Name</label>
+                    <label for="className" class="col-sm-4 col-form-label">Homework Title</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="className" name = "className" placeholder="Class Name">
+                      <input type="text" class="form-control" id="homeworktitle" name = "homeworktitle" placeholder="Homework Title">
                     </div>
                   </div>
                   <div class="form-group row row-space">
-                    <label for="classNumber" class="col-sm-4 col-form-label">Class Number</label>
+                    <label for="classNumber" class="col-sm-4 col-form-label">Description</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="description" name = "description" placeholder="Description">
+                    </div>
+                  </div>
+                  <div class="form-group row row-space">
+                    <label for="classNumber" class="col-sm-4 col-form-label">Due Date</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="duedate" name = "duedate" placeholder="Due Date">
+                    </div>
+                  </div>
+                  <div class="form-group row row-space">
+                    <label for="classNumber" class="col-sm-4 col-form-label">Upload Docs</label>
                     <div class="col-sm-8">
                       <input type="text" class="form-control" id="classNumber" name = "classNumber" placeholder="Class Number">
                     </div>

@@ -39,6 +39,9 @@ app.use(session({
 app.get("/", (request, response) => {
     response.sendFile('index.html', {root: __dirname+'/views'});
 })
+app.get("/api/homework", (request, response) => {
+    response.sendFile('homework.html', {root: __dirname+'/views'});
+})
 
 //Hosts the Login API
 app.post("/api/login", function(request,response){
