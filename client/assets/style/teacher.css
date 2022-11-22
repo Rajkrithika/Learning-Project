@@ -1,11 +1,6 @@
 body {
   background-color: #21a996;
 }
-@media (min-width: 991.98px) {
-  main {
-    /* padding-left: 240px; */
-  }
-}
 
 .navbar-top {
   margin-left: 8.7%;
