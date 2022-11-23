@@ -44,12 +44,12 @@ a {
 
 .border-shadow{
     border: 1px solid var(--border-btn);
-    box-shadow: 1px 3px 10px #e9ecef;
-    margin-top: 20px;
+    box-shadow: 1px 3px 3px #e9ecef;
+    margin-top: 10px;
 }
 
 .text-dark{
-    color: var(--dark);
+    color: white;
 }
 
 .inline{
@@ -68,9 +68,10 @@ a {
 }
 
 #header nav{
-    background-color: #06d6a0;
+    background-color: #34495e;
     padding: 1em 0;
     width: 100%;
+    
 }
 
 #site-main{
