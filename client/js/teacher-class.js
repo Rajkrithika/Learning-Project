@@ -1,32 +1,36 @@
-var emptyRow = "<tr class='trNewRow'>"; 
-emptyRow = emptyRow + "    <td class='tdSlNo'>";
-emptyRow = emptyRow + "    </td>";
-emptyRow = emptyRow + "    <td class='tdClassName'>";
-emptyRow = emptyRow + "        <input type='text' class='form-control className' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Class Name'/>";
-emptyRow = emptyRow + "    </td>";
-emptyRow = emptyRow + "    <td class='tdClassCode'>";
-emptyRow = emptyRow + "        <input type='text' class='form-control classCode' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Class Code' />";
-emptyRow = emptyRow + "    </td>";
-emptyRow = emptyRow + "    <td class='tdInvitation'>";
-emptyRow = emptyRow + "    </td>";
-emptyRow = emptyRow + "    <td class='tdAction'>";
-emptyRow = emptyRow + "        <a title='Save' class='btn border-shadow save'><span class='text-gradient'><i class='fas fa fa-floppy-o'></i></span></a>";
-emptyRow = emptyRow + "        <a title='Cancel' class='btn border-shadow cancel'><span class='text-gradient'><i class='fas fa-times'></i></span></a>";
-emptyRow = emptyRow + "    </td>";
-emptyRow = emptyRow + "</tr>";
+var emptyClassRow = "<tr class='trNewRow'>"; 
+emptyClassRow = emptyClassRow + "    <td class='tdSlNo'>";
+emptyClassRow = emptyClassRow + "    </td>";
+emptyClassRow = emptyClassRow + "    <td class='tdClassName'>";
+emptyClassRow = emptyClassRow + "        <input type='text' class='form-control className' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Class Name'/>";
+emptyClassRow = emptyClassRow + "    </td>";
+emptyClassRow = emptyClassRow + "    <td class='tdClassCode'>";
+emptyClassRow = emptyClassRow + "        <input type='text' class='form-control classCode' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Class Code' />";
+emptyClassRow = emptyClassRow + "    </td>";
+emptyClassRow = emptyClassRow + "    <td class='tdInvitation'>";
+emptyClassRow = emptyClassRow + "    </td>";
+emptyClassRow = emptyClassRow + "    <td class='tdAction'>";
+emptyClassRow = emptyClassRow + "        <a title='Save' class='btn border-shadow save'><span class='text-gradient'><i class='fas fa fa-floppy-o'></i></span></a>";
+emptyClassRow = emptyClassRow + "        <a title='Cancel' class='btn border-shadow cancel'><span class='text-gradient'><i class='fas fa-times'></i></span></a>";
+emptyClassRow = emptyClassRow + "    </td>";
+emptyClassRow = emptyClassRow + "</tr>";
 
 var actionForEdit = "<a title='Save' class='btn border-shadow update'><span class='text-gradient'><i class='fas fa fa-floppy-o'></i></span></a>"
 actionForEdit = actionForEdit + "<a title='Cancel' class='btn border-shadow edit-cancel'><span class='text-gradient'><i class='fas fa-times'></i></span></a>"
 
 $(document).ready(function () {
+
+    //AddClasses For Teacher
     $("#btnAdd").click(function () { 
-        $("#tblData tbody").append(emptyRow); // appending dynamic string to table tbody
+        $("#tblData tbody").append(emptyClassRow); // appending dynamic string to table tbody
     });
 
+    //Cancel Add Class before saving for Teacher    
     $('#tblData').on('click', '.cancel', function () { 
         $(this).parent().parent().remove();
     });
 
+    //Save newly Added Class
     $('#tblData').on('click', '.save', async function () { 
         $(this).parent().parent().remove();
         const className =  $(this).parent().parent().find(".className").val();
@@ -47,6 +51,8 @@ $(document).ready(function () {
         
     }); 
 
+
+    //Edit Class Inline
     $('#tblData').on('click', '.edit', async function () { 
         console.log("Editing the page");
         const className =$(this).parent().parent().find(".tdClassName").html();
@@ -61,6 +67,7 @@ $(document).ready(function () {
     
     }); 
 
+    //Update Edit Class
     $('#tblData').on('click', '.update', async function () { 
         $(this).parent().parent().remove();
         const className =  $(this).parent().parent().find(".className").val();
@@ -79,10 +86,12 @@ $(document).ready(function () {
         location.reload();
     }); 
 
+    //Cancel Edit Action
     $('#tblData').on('click', '.edit-cancel', function () { 
         location.reload();
     });
 
+    //Delete Class
     $('#tblData').on('click', '.delete', async function () { 
         console.log("Deleting the page")
         const invitationCode =$(this).parent().parent().find(".tdInvitation").html();

@@ -258,7 +258,8 @@ app.post("/api/class", (request, response) => {
 
 app.get("/api/homework", (request, response) => {
     if (request.session.user){
-        response.render('teacher-homework');
+        var homework = [];
+        response.render('teacher-homework', {homework:homework});
     } else {
         response.sendFile('403.html', {root: __dirname+'/views'});
     }
