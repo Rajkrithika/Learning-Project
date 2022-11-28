@@ -92,7 +92,9 @@
                           <td class="tdHWName" id="tdHWNameId"><%= homeworks[i].HW_NAME %></td>
                           <td class="tdHWDueDate"><%= homeworks[i].HW_DUE_DT %></td>
                           <td class="tdHWDescription"><%= homeworks[i].HW_DESCRIPTION %></td>
-                          <td class="tdHWDocs"><%= homeworks[i].HW_DOCS %></td>
+                          <td class="tdHWDocs"><%= homeworks[i].HW_DOCS %>
+                            <input id="file-upload" type="file"/>
+                          </td>
                           <td class="tdHWId" hidden><%= homeworks[i].HW_ID %></td>
                           <td class="tdHwAction">
                             <a href="#" title="Edit HomeWork" class="btn border-shadow edit">
