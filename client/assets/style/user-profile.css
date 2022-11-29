@@ -3,7 +3,7 @@
 
 body{
   background-color: #f5f5f5;  
-  font-family: Lato;
+  font-family: monsterrat;
 }
 .profile,.content{
   -webkit-transition: 0.5s ease;
@@ -127,7 +127,7 @@ input[type="file"]{
 }
 
 span.name,span.links > h3,h4{
-  font-family: Lato;
+  font-family: monsterrat;
   /*font-weight: 200;*/
 }
 span.name{
@@ -184,7 +184,7 @@ span.fa-users{
 }
 span.fa-users:after{
   content: "Circles";
-  font-family: Lato;
+  font-family: monsterrat;
   margin-left: 3px;
   color: #777;
 }
@@ -231,7 +231,7 @@ span.fa-users:after{
 /*Input Fields Styles
 =========================*/
 fieldset textarea,input{
-  font-family: Open Sans;
+  font-family: monsterrat;
   font-size: 15px;
   color: #333;
   background-color: #f7f7f7;
@@ -268,7 +268,7 @@ fieldset textarea:focus,input:focus{
   position: relative;
   width: 65%;
   float: right;
-  font-family: Source Sans Pro;
+  font-family: monsterrat;
   font-weight: 300;
   font-size: 17px;
 }
@@ -293,7 +293,7 @@ fieldset textarea:focus,input:focus{
   padding: 5px 10px;
   line-height: 1.3em;
   padding-bottom: 10px;
-  font-family: Open Sans;
+  font-family: monsterrat;
   background-color: #f2ecee;
   border-radius: 0 2.5px 2.5px 2.5px;
   -webkit-transition: all 0.5s ease;
@@ -320,7 +320,7 @@ fieldset textarea:focus,input:focus{
   text-decoration: none;
   padding: 0 3px 0 0;
   /* background-color: #222; */
-  font-family: Open Sans;
+  font-family: monsterrat;
   margin: 0;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -348,7 +348,7 @@ fieldset textarea:focus,input:focus{
 .content h1{
   text-align: center;
   color: #555;
-  font-family: Lato;
+  font-family: monsterrat;
   font-size: 40px;
   font-weight: 200;
   margin: 5px auto 15px auto;
@@ -404,7 +404,7 @@ div.logo{
 /*    margin: 0 auto;*/
 /*    text-align: center;*/
     font-size: 30px;
-    font-family:"Source Sans Pro";
+    font-family:monsterrat;
     color:#39cb58;
     width: 100%;
 /*    display: inline-block;*/
@@ -420,7 +420,7 @@ span.logo-part{
     padding: 2px 5.5px 0px 10px;
     border-radius:100%;
     margin-bottom:15px;
-    font-family: "Montez";
+    font-family: monsterrat;
 }
 .search{
 /*    margin-top:5px;
@@ -436,7 +436,7 @@ span.logo-part{
     width:220px;
     color:white;
     background-color:#eee;
-    font-family: "Lato","Open Sans",Helvetica,Arial;
+    font-family: monsterrat;
     border-top: 2px solid black;
     padding: 5px;
     padding-left: 15px;
