@@ -1,21 +1,27 @@
+/**
+ * Developed By : Yandigeri, Smita 
+ * This file has scripts and API call that helps Teacher to Add new class, edit existing class, delete class and View Homework functionalities  
+ */
+
+
 var emptyClassRow = "<tr class='trNewRow'>"; 
 emptyClassRow = emptyClassRow + "    <td class='tdSlNo'>";
 emptyClassRow = emptyClassRow + "    </td>";
 emptyClassRow = emptyClassRow + "    <td class='tdClassName'>";
-emptyClassRow = emptyClassRow + "        <input type='text' class='form-control className' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Class Name'/>";
+emptyClassRow = emptyClassRow + "        <input type='text' class='form-control className' style='height:30px; width:120px; font-family: monsterrat;' placeholder='Enter Class Name'/>";
 emptyClassRow = emptyClassRow + "    </td>";
 emptyClassRow = emptyClassRow + "    <td class='tdClassCode'>";
-emptyClassRow = emptyClassRow + "        <input type='text' class='form-control classCode' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Class Code' />";
+emptyClassRow = emptyClassRow + "        <input type='text' class='form-control classCode' style='height:30px; width:120px; font-family: monsterrat;' placeholder='Enter Class Code' />";
 emptyClassRow = emptyClassRow + "    </td>";
 emptyClassRow = emptyClassRow + "    <td class='tdInvitation'>";
 emptyClassRow = emptyClassRow + "    </td>";
 emptyClassRow = emptyClassRow + "    <td class='tdAction'>";
-emptyClassRow = emptyClassRow + "        <a title='Save' class='btn border-shadow save'><span class='text-gradient'><i class='fas fa fa-floppy-o'></i></span></a>";
+emptyClassRow = emptyClassRow + "        <a title='Save' class='btn border-shadow save'><span class='text-gradient'><i class='fas fa-save'></i></span></a>";
 emptyClassRow = emptyClassRow + "        <a title='Cancel' class='btn border-shadow cancel'><span class='text-gradient'><i class='fas fa-times'></i></span></a>";
 emptyClassRow = emptyClassRow + "    </td>";
 emptyClassRow = emptyClassRow + "</tr>";
 
-var actionForEdit = "<a title='Save' class='btn border-shadow update'><span class='text-gradient'><i class='fas fa fa-floppy-o'></i></span></a>"
+var actionForEdit = "<a title='Save' class='btn border-shadow update'><span class='text-gradient'><i class='fas fa-save'></i></span></a>"
 actionForEdit = actionForEdit + "<a title='Cancel' class='btn border-shadow edit-cancel'><span class='text-gradient'><i class='fas fa-times'></i></span></a>"
 
 $(document).ready(function () {
@@ -55,17 +61,17 @@ $(document).ready(function () {
         console.log("Editing the page");
         const className =$(this).parent().parent().find(".tdClassName").html();
         $(this).parent().parent().find(".tdClassName")
-        .html("<input type='text' value='"+className+"' class='form-control className' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter Name'/>"); 
+        .html("<input type='text' value='"+className+"' class='form-control className' style='height:30px; width:120px; font-family: monsterrat;' placeholder='Enter Name'/>"); 
 
         const classCode =$(this).parent().parent().find(".tdClassCode").html();
         $(this).parent().parent().find(".tdClassCode")
-        .html("<input type='text' value='"+classCode+"' class='form-control classCode' style='height:40px; width:120px; font-family: monsterrat;' placeholder='Enter City'/>"); 
+        .html("<input type='text' value='"+classCode+"' class='form-control classCode' style='height:30px; width:120px; font-family: monsterrat;' placeholder='Enter City'/>"); 
 
         $(this).parent().parent().find(".tdAction").html(actionForEdit);
     
     }); 
 
-    //Update Edit Class
+    //Update Edited Class
     $('#tblData').on('click', '.update', async function () { 
         $(this).parent().parent().remove();
         const className =  $(this).parent().parent().find(".className").val();
@@ -106,7 +112,7 @@ $(document).ready(function () {
         location.reload();
     });
     
-    //View Homwork Class
+    //View Homwork for Teacher
     $('#tblData').on('click', '.view', async function () { 
         console.log("View Homeworks")
         const invitationCode = $(this).parent().parent().find(".tdInvitation").html();

@@ -1,6 +1,13 @@
+/*
+* Developed By : Yandigeri, Smita 
+* This class performs DB operations on MY SQL DB
+*/
+
+
 const mysql =  require("mysql");
 const dotenv = require("dotenv");
 const moment = require("moment");
+const { request } = require("express");
 dotenv.config();
 
 const connection = mysql.createPool({
@@ -68,9 +75,17 @@ const connection = mysql.createPool({
     },
 
     updateClass : (data, user , callback)=>{
-        const ADDCLASS_QUERY= "UPDATE HOMEWORK.CLASS SET CLASS_NAME = ?, CLASS_CODE=? WHERE TEACHER_EMAIL_ID = ? AND INVITATION_CODE = ?;";
-        
-        connection.query(ADDCLASS_QUERY, [data.body.className, data.body.classCode, user.EMAIL_ID, data.body.invitationCode],
+        const UPDATE_TEACHER_CLASS_QUERY= "UPDATE HOMEWORK.CLASS SET CLASS_NAME = ?, CLASS_CODE=? WHERE TEACHER_EMAIL_ID = ? AND INVITATION_CODE = ?;";
+        const UPDATE_STUDENT_CLASS_QUERY= "UPDATE HOMEWORK.S_CLASS SET CLASS_NAME = ?, CLASS_CODE=? WHERE INVITATION_CODE = ?;";
+
+        connection.query(UPDATE_TEACHER_CLASS_QUERY, [data.body.className, data.body.classCode, user.EMAIL_ID, data.body.invitationCode],
+            (error, result, fields) => {
+                if (error) {
+                    callback(error);
+                }
+        });
+
+        connection.query(UPDATE_STUDENT_CLASS_QUERY, [data.body.className, data.body.classCode, data.body.invitationCode],
             (error, result, fields) => {
                 if (error) {
                     callback(error);
@@ -112,12 +127,12 @@ const connection = mysql.createPool({
     },
     
     addTeacherHomework : (data, user , callback)=>{
-        const ADD_TEACHER_HOMEWORK_QUERY= "INSERT INTO HOMEWORK.T_HOMEWORKS(TEACHER_EMAIL_ID, INVITATION_CODE, HW_NAME, HW_DUE_DT, HW_DESCRIPTION, CREATE_TS)" +
-        "VALUES(?,?,?,?,?,?);";
+        const ADD_TEACHER_HOMEWORK_QUERY= "INSERT INTO HOMEWORK.T_HOMEWORKS(TEACHER_EMAIL_ID, INVITATION_CODE, HW_NAME, "+ 
+            "HW_DUE_DT, HW_DESCRIPTION,HW_FILE_NAME, HW_FILE_DATA,  CREATE_TS) VALUES(?,?,?,?,?,?,?,?);";
         const createTs = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-        connection.query(ADD_TEACHER_HOMEWORK_QUERY, [user.EMAIL_ID, data.body.invitationCode, data.body.hwName, data.body.hwDueDate,  data.body.hwDescription, 
-            createTs],
+        connection.query(ADD_TEACHER_HOMEWORK_QUERY, [user.EMAIL_ID, data.body.invitationCode, data.body.hwName, 
+            data.body.hwDueDate,  data.body.hwDescription, data.body.fileName, data.body.fileData, createTs],
             (error, result, fields) => {
                 if (error) {
                     callback(error);
@@ -139,18 +154,35 @@ const connection = mysql.createPool({
     }, 
 
     updateHomework : (data, user , callback)=>{
-        const ADDCLASS_QUERY= "UPDATE HOMEWORK.T_HOMEWORKS SET HW_NAME = ?, HW_DUE_DT=?, HW_DESCRIPTION=? WHERE TEACHER_EMAIL_ID = ? " +
+        const UPDATE_HW_WITH_NO_FILE = "UPDATE HOMEWORK.T_HOMEWORKS SET HW_NAME = ?, HW_DUE_DT=?, HW_DESCRIPTION=? WHERE TEACHER_EMAIL_ID = ? " +
         "AND INVITATION_CODE = ? AND HW_ID = ?;";
         
-        connection.query(ADDCLASS_QUERY, [data.body.newHwName, data.body.newHwDueDate, data.body.newHwDescription, user.EMAIL_ID, 
-            data.body.invitationCode, data.body.hwID],
-            (error, result, fields) => {
-                if (error) {
-                    callback(error);
-                } else {
-                    callback(null, result)
-                }
-        });
+        const UPDATE_HW_WITH_FILE = "UPDATE HOMEWORK.T_HOMEWORKS SET HW_NAME = ?, HW_DUE_DT=?, HW_DESCRIPTION= ?, " +
+        " HW_FILE_NAME = ?, HW_FILE_DATA = ? WHERE TEACHER_EMAIL_ID = ? " +
+        "AND INVITATION_CODE = ? AND HW_ID = ?;";
+        
+
+        if (data.body.fileName && data.body.fileData) {
+            connection.query(UPDATE_HW_WITH_FILE, [data.body.newHwName, data.body.newHwDueDate, data.body.newHwDescription, 
+                data.body.fileName, data.body.fileData, user.EMAIL_ID, data.body.invitationCode, data.body.hwID],
+                (error, result, fields) => {
+                    if (error) {
+                        callback(error);
+                    } else {
+                        callback(null, result)
+                    }
+            });
+        } else {
+            connection.query(UPDATE_HW_WITH_NO_FILE, [data.body.newHwName, data.body.newHwDueDate, data.body.newHwDescription, user.EMAIL_ID, 
+                data.body.invitationCode, data.body.hwID],
+                (error, result, fields) => {
+                    if (error) {
+                        callback(error);
+                    } else {
+                        callback(null, result)
+                    }
+            });
+        }
     },
 
     deleteHomework : (data, user , callback)=>{
@@ -164,7 +196,9 @@ const connection = mysql.createPool({
     },
 
     getClassesForStudent : (user, callback) => {
-        const CLASSES_FOR_STUDNET = "SELECT * FROM HOMEWORK.S_CLASS WHERE STUDENT_EMAIL_ID = ? ORDER BY CREATE_TS";
+        const CLASSES_FOR_STUDNET = "SELECT SC.STUDENT_EMAIL_ID , SC.CLASS_NAME, SC.CLASS_CODE, SC.INVITATION_CODE, COUNT(HW_ID) AS NOTIFICATIONS FROM HOMEWORK.S_CLASS SC " +
+        " LEFT JOIN HOMEWORK.T_HOMEWORKS HW ON SC.INVITATION_CODE = HW.INVITATION_CODE AND SC.LAST_VISIT_TS < HW.CREATE_TS " +
+        " GROUP BY SC.STUDENT_EMAIL_ID , SC.CLASS_NAME, SC.CLASS_CODE, SC.INVITATION_CODE HAVING STUDENT_EMAIL_ID = ? ORDER BY SC.CREATE_TS";
         connection.query(CLASSES_FOR_STUDNET, [user.EMAIL_ID],
             (error, result, fields) => {
                 if (error) {
@@ -191,7 +225,20 @@ const connection = mysql.createPool({
     },
 
     getHomeWorksForClassByStudent : (invitationCode, user , callback)=>{
-        const FETCH_HOMEWORKS_BY_INVITITION = "SELECT * FROM HOMEWORK.T_HOMEWORKS WHERE INVITATION_CODE=? ORDER BY CREATE_TS;";
+        const FETCH_HOMEWORKS_BY_INVITITION = "SELECT SH.*, SS.SUB_FILE_DATA FROM HOMEWORK.T_HOMEWORKS SH" +
+        " LEFT JOIN HOMEWORK.S_SUBMISSIONS SS ON SH.HW_ID = SS.HW_ID AND SS.INVITATION_CODE = SH.INVITATION_CODE " +
+        " WHERE SH.INVITATION_CODE=? ORDER BY SH.CREATE_TS;";
+
+        const SET_LAST_VISIT_TIME = "UPDATE HOMEWORK.S_CLASS SET LAST_VISIT_TS = ? WHERE INVITATION_CODE = ?;"
+        const createTs = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+        connection.query(SET_LAST_VISIT_TIME, [createTs, invitationCode],
+            (error, result, fields) => {
+                if (error) {
+                    callback(error);
+                } 
+        });
+
         connection.query(FETCH_HOMEWORKS_BY_INVITITION, [invitationCode],
             (error, result, fields) => {
                 if (error) {
@@ -213,4 +260,30 @@ const connection = mysql.createPool({
                 } 
         });
     },
+
+    addHomeworkSubmission : (data, user , callback)=>{
+        const ADD_SUBMISSION= "INSERT INTO HOMEWORK.S_SUBMISSIONS VALUES (?,?,?,?,?,?,?,?)";
+        const createTs = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        var studentFullName = user.FIRST_NAME + " " + user.LAST_NAME;
+        connection.query(ADD_SUBMISSION, [user.EMAIL_ID, studentFullName, data.body.invitationCode, data.body.hwID,
+            data.body.fileName, data.body.fileData, createTs, data.body.hwName],
+            (error, result, fields) => {
+                if (error) {
+                    callback(error);
+                } 
+        });
+    },
+
+    getSubmissionForHomework : (invitationCode, hwID, callback)=>{
+        const FETCH_SUBMISSION_FOR_HOMEWORK = "SELECT SUB.*, CLA.CLASS_NAME FROM HOMEWORK.S_SUBMISSIONS SUB " +
+        " LEFT JOIN HOMEWORK.CLASS CLA ON SUB.INVITATION_CODE = CLA.INVITATION_CODE WHERE SUB.INVITATION_CODE = ? AND SUB.HW_ID = ? ORDER BY SUB.CREATE_TS;";
+        connection.query(FETCH_SUBMISSION_FOR_HOMEWORK, [invitationCode, hwID],
+            (error, result, fields) => {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null, result)
+                }
+        });
+    }, 
   };
