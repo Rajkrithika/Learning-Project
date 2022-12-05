@@ -1,7 +1,8 @@
 /**
  * Developed By : Yandigeri, Smita 
  * This file has scripts and API call that helps Teacher to Add new class, edit existing class, delete class and View Homework functionalities  
- */
+ * Referenced/Template Used From Video: https://www.youtube.com/watch?v=eWHJ0JS4eIM&t=341s
+*/
 
 
 var emptyClassRow = "<tr class='trNewRow'>"; 
